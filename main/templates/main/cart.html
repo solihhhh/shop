@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2 class="hhh">Savat</h2>
+
+{% if cart_items %}
+    <ul class="cartul">
+        {% for item in cart_items %}
+            <li>{{ item.product.name }}   |   Miqdori: {{ item.quantity }}</li>
+        <br>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Savatda hech qanday mahsulot yo'q.</p>
+
+{% endif %}
+<a href="{% url 'product_list' %}">Mahsulotlar ro'yxatiga qaytish</a>
+{% endblock %}

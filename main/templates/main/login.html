@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h2 class="hhh">Kirish</h2>
+<form method="post">
+    {% csrf_token %}
+    <ul>
+        <li class="la"><label for="username">Foydalanuvchi nomi:</label></li>
+        <li><input class="lai" type="text" name="username" required><br></li>
+        <li class="la"><label for="password">Parol:</label></li>
+        <li><input class="lai" type="password" name="password" required><br></li>
+    </ul>
+    <button class="b" type="submit">Kirish</button>
+</form>
+{% endblock %}
+
+
+

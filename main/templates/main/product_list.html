@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2 class="h2">Mahsulotlar ro'yxati</h2>
+
+<!-- Qidiruv formasi -->
+<form method="get" action="">
+    <input class="inputt" type="text" name="q" placeholder="Mahsulotni qidirish..." value="{{ query|default:'' }}">
+    <button class="button" type="submit">Qidirish</button>
+</form>
+
+<!-- Sortlash havolalari -->
+
+    <div class="sort">
+    <ul class="sortli">
+        <li>
+            <a href="?sort_by=price_asc{% if query %}&q={{ query }}{% endif %}">Narx bo'yicha (Pastdan yuqoriga)</a>
+        </li>
+        <li>
+            <a href="?sort_by=name{% if query %}&q={{ query }}{% endif %}">Nomi bo'yicha</a>
+        </li>
+    </ul>
+    </div>
+
+<!-- Pagination -->
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if query %}&q={{ query }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">&laquo; Birinchi</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">&lsaquo; Oldingi</a>
+    {% endif %}
+
+    <span>Joriy sahifa: {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">Keyingi &rsaquo;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">Oxirgi &raquo;</a>
+    {% endif %}
+</div>
+
+
+<!-- Mahsulotlar ro'yxati -->
+<ul class="lip">
+    {% for product in products %}
+        <li class="ulp">
+            <a class="ap" href="{% url 'product_detail' product.id %}">{{ product.name }}</a> - ${{ product.price }}
+        </li>
+    {% empty %}
+        <li>Mahsulotlar topilmadi.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

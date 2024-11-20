@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div  class="hname">
+    <h2>{{ product.name }}</h2>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <p>{{ product.description }}</p>
+    <p>${{ product.price }}</p>
+</div>
+
+{% if user.is_authenticated %}
+<a href="{% url 'like_product' product.id %}">
+    {% if user_like and user_like.liked %}
+    <button>Yoqtirishdan chiqarish</button>
+    {% else %}
+    <button class="like">❤️</button>
+    {% endif %}
+</a>
+<!--<p><a href="{% url 'liked_products' %}">Yoqtirgan mahsulotlaringizni ko‘ring</a></p>-->
+{% endif %}
+
+
+{% if user.is_authenticated %}
+<form action="{% url 'add_to_cart' product.id %}" method="post">
+    {% csrf_token %}
+    <button class="savat" type="submit">🛒</button>
+</form>
+{% else %}
+<p>Savatga qo'shish uchun tizimga kirishingiz kerak.</p>
+{% endif %}
+
+<h3>Izohlar</h3>
+
+<ul>
+    {% for comment in comments %}
+    <li class="li">{{ comment.user.username }}: {{ comment.comment_text }}</li>
+    {% empty %}
+    <li>Izohlar mavjud emas.</li>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'add_comment' product.id %}">
+    {% csrf_token %}
+    <textarea class="coment" name="comment_text" placeholder="Izoh qoldirish" required></textarea><br>
+    <button class="buto" type="submit">Yuborish</button>
+</form>
+{% endif %}
+
+{% endblock %}
